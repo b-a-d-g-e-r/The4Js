@@ -62,6 +62,7 @@ void blackjack()
         }
         else
         {
+            dturn=0;
     printf("\nYou have £%d\nEnter how much you want to bet or enter '0' to return to the game select ",JamesMoneyz);
     scanf("%d",&JamezBet);
     while(JamezBet>JamesMoneyz)
