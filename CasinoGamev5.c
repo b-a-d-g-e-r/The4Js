@@ -79,6 +79,8 @@ void blackjack()
     {
     JamesMoneyz=JamesMoneyz-JamezBet;
     // your turn
+        pscore=0;
+        j=0;
     while(j==0)
     {
     srand(time(NULL));
@@ -143,6 +145,7 @@ void blackjack()
     // Dealers turn
     if(dturn==0)
     {
+        dscore=0;
     while(dscore<=pscore)
     {
         srand(time(NULL));
