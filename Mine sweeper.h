@@ -15,7 +15,7 @@
 
 
 
-int playMineRound();
+int playMineRound(); 
 
 void initBoard(int size, char board[size][size]);
 void plantMine(int size, char board[size][size], int difficulty);
@@ -635,6 +635,7 @@ void howToPlay()
 	
 	do
 	{
+		system("cls");
 		printf("This should be filled with useful information about how to play mine sweaper ");
 		
 		printf("\n\nPress enter to return to the previous screen");
