@@ -15,14 +15,6 @@
 #define LINGO_INDEX 0
 
 
-void getWord(char outWord[7], int size);
-int playLingoRound(int size, char word[size], int *points);
-void changeBoard(int size, char Board[MAX_ATTEMPTS][size], char template[size], int attemptNumber);
-int inString(char letter, int size, char string[size]);
-void innitOverlay(int size, char overLay[MAX_ATTEMPTS][size]);
-void displayWords(int size, char wrongPlaceLoc[MAX_ATTEMPTS][size], char pastAttempts[MAX_ATTEMPTS][size], int attemptNumber);
-void printfLine(int size, char wrongPlaceLoc[size], char pastAttempts[size], int attempt);
-
 struct player
 {
 	char userName[10];
@@ -33,7 +25,17 @@ struct player
 	int location;
 };
 
+void getWord(char outWord[7], int size);
+int playLingoRound(int size, char word[size], int *points);
+void changeBoard(int size, char Board[MAX_ATTEMPTS][size], char template[size], int attemptNumber);
+int inString(char letter, int size, char string[size]);
+void innitOverlay(int size, char overLay[MAX_ATTEMPTS][size]);
+void displayWords(int size, char wrongPlaceLoc[MAX_ATTEMPTS][size], char pastAttempts[MAX_ATTEMPTS][size], int attemptNumber);
+void printfLine(int size, char wrongPlaceLoc[size], char pastAttempts[size], int attempt);
+
+int getIn();
 void writeAcount(struct player *currentAccount);
+int getSize();
 
 int playLingo(struct player* currentAccount)
 {
@@ -43,12 +45,7 @@ int playLingo(struct player* currentAccount)
 
 
 //	getting word size
-	do
-	{
-		system("cls");
-		printf("Do you want to play with 5, 6 or 7 letter words? ");
-		scanf("%d", &size);
-	}while(size != 5 && size != 6 && size != 7);
+	size = getSize();
 
 //	game loop
 
@@ -370,4 +367,99 @@ void printfLine(int size, char wrongPlaceLoc[size], char pastAttempts[size], int
 		printf("-");
 	}
 	printf("\n\n\n");
+}
+
+int getSize()
+{
+	int selection = 0;
+	char input;
+	int counter;
+
+	do
+	{
+		system("cls");
+		printf("How many letters should the words have:\n\n\n");
+		printf("\t\t\t\t    ----------------\n");
+		for(counter = 0; counter < 3; counter ++)
+		{
+			printf("\t\t\t\t   | %d Letters ", counter + 5);
+			if(counter == selection)
+			{
+				printf(" <<< |");
+			}
+			else
+			{
+				printf("     |");
+			}
+			printf("\n");
+		}
+		printf("\t\t\t\t    ----------------\n");
+		input = getIn();
+
+		if(input == 1)
+		{
+			selection --;
+			if(selection <0)
+			{
+				selection = 2;
+			}
+		}
+
+		else if(input == 2)
+		{
+			selection ++;
+			if(selection>2)
+			{
+				selection = 0;
+			}
+		}
+
+	}while(input != 5);
+
+	return selection + 5;
+}
+
+int getIn()
+{
+	char input = 'N';
+	int moveing = 1;
+	
+	while(moveing == 1)
+	{
+		do
+		{
+			input = getch();
+		}while(input == -32|| input == 0);
+
+
+		if(input == 119 || input == 87 || input == 72)
+		{
+			return 1;
+		}
+
+		else if(input == 115 || input == 83 || input == 80)
+		{	
+			return 2;
+		}
+
+		else if(input == 97 || input == 65 || input == 75)
+		{
+			return 3;
+		}
+
+		else if(input == 100 || input == 68 || input == 54)
+		{
+			return 4;
+		}
+
+		else if(input == 13)
+		{
+			return 5;
+		}
+
+		else if (input == 27)
+		{
+			return 6;
+		}
+	}
 }
