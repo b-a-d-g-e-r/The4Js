@@ -1,11 +1,13 @@
 #include"lingo.h"
 #include"Mine Sweeper.h"
+#include"Casino.h"
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<conio.h>
 
-#define OPTIONS 6
+#define OPTIONS 8
 #define SELECTIONS 4
 
 
@@ -28,30 +30,30 @@ void swapstat(struct stat *one, struct stat *two);
 
 int main()
 {
-	char Screen[23][76] = {
-	" #######                                                       # ###       \n",
-	"    #    #    # ######    ######  ####  #    # #####           # ###  #### \n",
-	"    #    #    # #         #      #    # #    # #    #          #  #  #     \n",
-	"    #    ###### #####     #####  #    # #    # #    #          # #    #### \n",
-	"    #    #    # #         #      #    # #    # #####     #     #          #\n",
-	"    #    #    # #         #      #    # #    # #   #     #     #     #    #\n",
-	"    #    #    # ######    #       ####   ####  #    #     #####       #### \n",
-	"                                                                           \n",
-	"             #######                  #######                              \n",
-	"                #     ####  #####     #        ####  #    # #####          \n",
-	"                #    #    # #    #    #       #    # #    # #    #         \n",
-	"                #    #    # #    #    #####   #    # #    # #    #         \n",
-	"                #    #    # #####     #       #    # #    # #####          \n",
-	"                #    #    # #         #       #    # #    # #   #          \n",
-	"                #     ####  #         #        ####   ####  #    #         \n",
-	"                                                                           \n",
-	"                          #####                                            \n",
-	"                         #     #   ##   #    # ######  ####                \n",
-	"                         #        #  #  ##  ## #      #                    \n",
-	"                         #  #### #    # # ## # #####   ####                \n",
-	"                         #     # ###### #    # #           #               \n",
-	"                         #     # #    # #    # #      #    #               \n",
-	"                          #####  #    # #    # ######  ####                \n"                                                                                                                                
+	char Screen[23][80] = {
+	" #######                  #######                               # ###        \n",
+	"    #    #    # ######    #        ####  #    # #####           # ###  ####  \n",
+	"    #    #    # #         #       #    # #    # #    #          #  #  #      \n",
+	"    #    ###### #####     #####   #    # #    # #    #          # #    ####  \n",
+	"    #    #    # #         #       #    # #    # #####     #     #          # \n",
+	"    #    #    # #         #       #    # #    # #   #     #     #     #    # \n",
+	"    #    #    # ######    #        ####   ####  #    #     #####       ####  \n",
+	"                                                                             \n",
+	"          #######                  #######                                   \n",
+	"             #     ####  #####     #       # #    # ######      #            \n",
+	"             #    #    # #    #    #       # #    # #           #            \n",
+	"             #    #    # #    #    #####   # #    # #####     #####          \n",
+	"             #    #    # #####     #       # #    # #           #            \n",
+	"             #    #    # #         #       #  #  #  #           #            \n",
+	"             #     ####  #         #       #   ##   ######                   \n",
+	"                                                                             \n",
+	"                    #####                                                    \n",
+	"                   #     #   ##   #    # ######  ####                        \n",
+	"                   #        #  #  ##  ## #      #                            \n",
+	"                   #  #### #    # # ## # #####   ####                        \n",
+	"                   #     # ###### #    # #           #                       \n",
+	"                   #     # #    # #    # #      #    #                       \n",
+	"                    #####  #    # #    # ######  ####                        \n"                                                                                                                                                                                                             
 	};
 
 
@@ -89,9 +91,11 @@ int main()
 	char options[OPTIONS][20] = {
 		"Lingo        ",
 		"Mine Sweaper ",
-		"Option 3     ",
-		"Option 4     ",
+		"Memory Game  ",
+		"Virus Game?  ",
+		"Enter Casino ",
 		"Scores       ",
+		"Settings     ",
 		"Exit         "
 	};
 
@@ -111,7 +115,7 @@ int main()
 		{
 			for(lineCounter = 0; lineCounter < 23; lineCounter ++)
 			{
-				for(letterCounter = 0; letterCounter < 76; letterCounter ++)
+				for(letterCounter = 0; letterCounter < 80; letterCounter ++)
 				{
 					printf("%c", Screen[lineCounter][letterCounter]);
 				}
@@ -192,7 +196,23 @@ int main()
 					playMineSweaper(&acctiveAccount);
 					break;
 
+					case 2:
+					//Chinese Memory Game
+					break;
+
+					case 3:
+					//Jake's Virus Game is ever finished
+					break;
+
 					case 4:
+					//Casino
+					system("cls");
+					Casino(&acctiveAccount);
+					writeAccount(&acctiveAccount);
+					break;
+
+					case 5:
+					//stats
 					system("cls");
 					for(counter = 0; counter < 7; counter ++)
 					{
@@ -205,11 +225,10 @@ int main()
 					
 					printf("\n\n\n");
 					scoreDisplay(acctiveAccount);
-					//finish latter when games have been finished
 					pressTo();
 					break;
 
-					case 5:
+					case 7:
 					system("cls");
 					for(counter = 0; counter < 15; counter ++)
 					{	printf("   ");
@@ -359,9 +378,9 @@ int logIn(struct player* playerStorage)
 								playerStorage->scores[1] = playerBuffer.scores[1];
 								playerStorage->scores[2] = playerBuffer.scores[2];
 								playerStorage->scores[3] = playerBuffer.scores[3];
+								playerStorage->scores[4] = playerBuffer.scores[4];
 
 								playerStorage->location = playerBuffer.location;
-								playerStorage->money =playerBuffer.money;
 								return 1;
 							}
 						}
@@ -444,15 +463,16 @@ int logIn(struct player* playerStorage)
 						playerStorage->scores[1] = 0;
 						playerStorage->scores[2] = 0;
 						playerStorage->scores[3] = 0;
+						playerStorage->scores[4] = 50;
 
 						playerStorage->attempts[0] = 0;
 						playerStorage->attempts[1] = 0;
 						playerStorage->attempts[2] = 0;
 						playerStorage->attempts[3] = 0;
+						playerStorage->scores[4] = 50;
 
 						fseek(accountFile, 0, SEEK_END);
 						playerStorage->location = ftell(accountFile) / sizeof(struct player);
-						playerStorage->money = 50;
 
 						fclose(accountFile);
 						fopen("accountInfo.bin", "ab");
@@ -583,11 +603,12 @@ void getLeader(struct stat list[5])
 	int tempScore, temp;
 	int input, swapped = 1;
 
-	char options[4][20] = {
+	char options[5][20] = {
 	"Lingo        ",
 	"Mine Sweaper ",
-	"Option 3     ",
-	"Option 4     ",
+	"Memory Game  ",
+	"Virus Game?  ",
+	"Casino       "
 	};
 
 
@@ -599,7 +620,7 @@ void getLeader(struct stat list[5])
 		printf("What game do you want to see the leader board for?\n\n");
 
 		printf("\t\t\t -----------------\n");
-		for(counter1 = 0; counter1 < 4; counter1 ++)
+		for(counter1 = 0; counter1 < 5; counter1 ++)
 		{
 			printf("\t\t\t| %s", options[counter1]);
 			if(selection == counter1)
@@ -622,13 +643,13 @@ void getLeader(struct stat list[5])
 			selection --;
 			if(selection < 0)
 			{
-				selection = 3;
+				selection = 4;
 			}
 			break;
 
 			case 2:
 			selection ++;
-			if(selection >= 4)
+			if(selection >= 5)
 			{
 				selection = 0;
 			}
@@ -673,7 +694,15 @@ void getLeader(struct stat list[5])
 		printf("\t\t\tName   -   Score\n\n");
 		for(counter1 = 0; counter1 < size; counter1 ++)
 		{
-			printf("\t\t\t%s  -   %d\n", statistics[counter1].userName, statistics[counter1].score);
+			if(game_index == 4)
+			{
+				printf("\t\t\t%s  -   %c%d\n", statistics[counter1].userName, POUND, statistics[counter1].score);
+			}
+
+			else
+			{
+				printf("\t\t\t%s  -   %d\n", statistics[counter1].userName, statistics[counter1].score);
+			}
 		}
 		printf("\n\n");
 		pressTo();
