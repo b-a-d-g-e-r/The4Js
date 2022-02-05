@@ -6,21 +6,22 @@
 #include<ctype.h>
 
 #define POUND 156
+#define CASINO_INDEX 4
 
-void roulette();
-void blackjack();
-void slotmachine();
+void roulette(int *money);
+void blackjack(int *money);
+void slotmachine(int *money);
 
-//global variables
-int JamesMoneyz=50;
 
-int Casino()
+int Casino(struct player* currentAccount)
 {
     int gameOver=0, choice;
+    int *money = &(currentAccount->scores[CASINO_INDEX]);
+
 
     while(gameOver==0)
     {
-        if(JamesMoneyz==0)
+        if(*money==0)
         {
             printf("\nAll out of money, Sorry :(\n");
             gameOver=1;
@@ -28,31 +29,32 @@ int Casino()
         
         else
         {
-            printf("Welcome to the underage gambling simulator.\nDo you want to play:\n1: Blackjack\n2: Roulette\n3: Slot Machine\n4: Exit\n");
+            printf("Welcome,%s, to the underage gambling simulator.\nDo you want to play:\n1: Blackjack\n2: Roulette\n3: Slot Machine\n4: Exit\n", currentAccount->userName);
             scanf("%d",&choice);
             switch(choice)
             {
                 case 1:
-                blackjack();
+                blackjack(money);
                 break;
 
                 case 2: 
-                roulette();
+                roulette(money);
                 break;
 
                 case 3:
-                slotmachine();
+                slotmachine(money);
                 break;
 
                 case 4: 
                 gameOver=1;
+                return 0;
                 break;
            }
         }
     }
 }
 
-void blackjack()
+void blackjack(int *money)
 {
     int bet = 0;
     int pscore=0,dscore=0,i=0,card,j=0,rannum2,dturn;
@@ -64,7 +66,7 @@ void blackjack()
     printf("\nWelcome to Blackjack.");
     while(Brepeat==0)
     {
-        if(JamesMoneyz<=0)
+        if(*money<=0)
         {
             Brepeat=1;
             dturn=1;
@@ -73,12 +75,12 @@ void blackjack()
         else
         {
             dturn=0;
-            printf("\nYou have %c%d\nEnter how much you want to bet or enter '0' to return to the game select ",POUND, JamesMoneyz);
+            printf("\nYou have %c%d\nEnter how much you want to bet or enter '0' to return to the game select ",POUND, *money);
             scanf("%d",&bet);
 
-            while(bet>JamesMoneyz)
+            while(bet>*money)
             {
-                printf("You only ave %c%d, Enter a valid bet: ",POUND, JamesMoneyz);
+                printf("You only ave %c%d, Enter a valid bet: ",POUND, *money);
                 scanf("%d",&bet);
             }
 
@@ -90,7 +92,7 @@ void blackjack()
 
             else
             {
-                JamesMoneyz=JamesMoneyz-bet;
+                *money=*money-bet;
                 // your turn
                 pscore=0;
                 j=0;
@@ -138,7 +140,7 @@ void blackjack()
                     {
                         bet=bet*2;
                         printf("\nBlackjack! You scored exactly 21 and received %c%d",POUND, bet);
-                        JamesMoneyz=JamesMoneyz+bet;
+                        *money=*money+bet;
                         j=1;
                         dturn=1;
                     }
@@ -222,7 +224,7 @@ void blackjack()
                     {
                         bet=bet*2;
                         printf("**Dealer went bust, You win and receive %c%d**",POUND, bet);
-                        JamesMoneyz=JamesMoneyz+bet;
+                        *money=*money+bet;
                     }
                 }
             }
@@ -230,7 +232,7 @@ void blackjack()
     }
 }
 
-void roulette()
+void roulette(int *money)
 {
     int Rrepeat=0, bet = 0, choice;
     printf("\nWelcome to roulette\n");
@@ -240,21 +242,21 @@ void roulette()
 
     while(Rrepeat==0)
     {
-        if(JamesMoneyz==0)
+        if(*money==0)
         {
             Rrepeat=1;
         }
 
         else
         {
-            printf("You have %c%d\nHow much would you like to bet? ",POUND, JamesMoneyz);
+            printf("You have %c%d\nHow much would you like to bet? ",POUND, *money);
             scanf("%d",&bet);
-            while(bet>JamesMoneyz)
+            while(bet>*money)
             {
-                printf("Not enough money, You only have %c%d. Enter a bet: ",POUND, JamesMoneyz);
+                printf("Not enough money, You only have %c%d. Enter a bet: ",POUND, *money);
                 scanf("%d",&bet);
             }
-            JamesMoneyz=JamesMoneyz-bet;
+            *money=*money-bet;
 
             srand(time(NULL));
             int rannum=rand() % 50;
@@ -274,7 +276,7 @@ void roulette()
                 {
                     bet=bet*2;
                     printf("\nCorrect, the wheel landed on %s %d You receive %c%d\n",colour[rancol],rannum,POUND, bet);
-                    JamesMoneyz=JamesMoneyz+bet;
+                    *money=*money+bet;
                 }
 
                 else
@@ -291,7 +293,7 @@ void roulette()
                 {
                     bet=bet*5;
                     printf("\nCorrect, the wheel landed on %s %d You receive %c%d\n",colour[rancol],rannum,POUND, bet);
-                    JamesMoneyz=JamesMoneyz+bet;
+                    *money=*money+bet;
                 }
 
                 else
@@ -311,7 +313,7 @@ void roulette()
                 {
                     bet=bet*20;
                     printf("\nJackpot! the wheel landed on %s %d and you guessed it right! you receive %c%d",colour[rancol],rannum,POUND, bet);
-                    JamesMoneyz=JamesMoneyz+bet;
+                    *money=*money+bet;
                 }
 
                 else
@@ -321,7 +323,7 @@ void roulette()
                 break;
 
                 case 4:
-                JamesMoneyz=JamesMoneyz+bet;
+                *money=*money+bet;
                 Rrepeat=1;
                 break;
             }
@@ -329,7 +331,7 @@ void roulette()
     }
 }
 
-void slotmachine()
+void slotmachine(int *money)
 {
     int bet = 0;
     int l,k=0,ranspina,ranspinb,ranspinc;
@@ -340,7 +342,7 @@ void slotmachine()
     
     while(k==0)
     {
-        printf("\nYou have %c%d\nWould you like to: \nplay (%c1)\nExit to menu\n",POUND, JamesMoneyz, POUND);
+        printf("\nYou have %c%d\nWould you like to: \nplay (%c1)\nExit to menu\n",POUND, *money, POUND);
         fflush(stdin);
         scanf("%s",&choice);
         srand(time(NULL));
@@ -361,7 +363,7 @@ void slotmachine()
              ranspinc = rand() % 6;
              ranspina = rand() % 6;
             
-            JamesMoneyz=JamesMoneyz-1;
+            *money=*money-1;
             for(l=0;l<4;l++)
             { 
                 switch(l)
@@ -372,33 +374,33 @@ void slotmachine()
 
                     case 1:
                     printf("\n%s Rolling Rolling",output[ranspina+3]);
-                    sleep(2);
+                    // sleep(2);
                     break;
 
                     case 2:
                     printf("\n%s %s Rolling",output[ranspina+3],output[ranspinb+3]);
-                   sleep(2);
+                   // sleep(2);
                     break;
 
                     case 3:
                     printf("\n%s %s %s\n",output[ranspina+3],output[ranspinb+3],output[ranspinc+3]);
-                    sleep(2);
+                    // sleep(2);
                     break;
                 }
             }
 
-            if(strcmp(output[ranspina],output[ranspinb])==0 && strcmp(output[ranspinb],output[ranspinc])==0)
+            if(ranspina ==ranspinb && ranspinb == ranspinc)
             {
                 switch(ranspina)
                 {
                     case 6: 
-                    JamesMoneyz=JamesMoneyz+10000;
+                    *money=*money+10000;
                     printf("**Jackpot!** You won %c10,000", POUND);
                     break;
 
                     default:
                     printf("Well done! You got 3 matching %ss, You win %c500",output[ranspina+3], POUND);
-                    JamesMoneyz=JamesMoneyz+500;
+                    *money=*money+500;
                     break;
                 }
             }
