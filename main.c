@@ -1,11 +1,13 @@
 #include"lingo.h"
 #include"Mine Sweeper.h"
+#include"Casino.h"
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
 #include<conio.h>
 
-#define OPTIONS 6
+#define OPTIONS 8
 #define SELECTIONS 4
 
 
@@ -28,30 +30,30 @@ void swapstat(struct stat *one, struct stat *two);
 
 int main()
 {
-	char Screen[23][76] = {
-	" #######                                                       # ###       \n",
-	"    #    #    # ######    ######  ####  #    # #####           # ###  #### \n",
-	"    #    #    # #         #      #    # #    # #    #          #  #  #     \n",
-	"    #    ###### #####     #####  #    # #    # #    #          # #    #### \n",
-	"    #    #    # #         #      #    # #    # #####     #     #          #\n",
-	"    #    #    # #         #      #    # #    # #   #     #     #     #    #\n",
-	"    #    #    # ######    #       ####   ####  #    #     #####       #### \n",
-	"                                                                           \n",
-	"             #######                  #######                              \n",
-	"                #     ####  #####     #        ####  #    # #####          \n",
-	"                #    #    # #    #    #       #    # #    # #    #         \n",
-	"                #    #    # #    #    #####   #    # #    # #    #         \n",
-	"                #    #    # #####     #       #    # #    # #####          \n",
-	"                #    #    # #         #       #    # #    # #   #          \n",
-	"                #     ####  #         #        ####   ####  #    #         \n",
-	"                                                                           \n",
-	"                          #####                                            \n",
-	"                         #     #   ##   #    # ######  ####                \n",
-	"                         #        #  #  ##  ## #      #                    \n",
-	"                         #  #### #    # # ## # #####   ####                \n",
-	"                         #     # ###### #    # #           #               \n",
-	"                         #     # #    # #    # #      #    #               \n",
-	"                          #####  #    # #    # ######  ####                \n"                                                                                                                                
+	char Screen[23][80] = {
+	" #######                  #######                               # ###        \n",
+	"    #    #    # ######    #        ####  #    # #####           # ###  ####  \n",
+	"    #    #    # #         #       #    # #    # #    #          #  #  #      \n",
+	"    #    ###### #####     #####   #    # #    # #    #          # #    ####  \n",
+	"    #    #    # #         #       #    # #    # #####     #     #          # \n",
+	"    #    #    # #         #       #    # #    # #   #     #     #     #    # \n",
+	"    #    #    # ######    #        ####   ####  #    #     #####       ####  \n",
+	"                                                                             \n",
+	"          #######                  #######                                   \n",
+	"             #     ####  #####     #       # #    # ######      #            \n",
+	"             #    #    # #    #    #       # #    # #           #            \n",
+	"             #    #    # #    #    #####   # #    # #####     #####          \n",
+	"             #    #    # #####     #       # #    # #           #            \n",
+	"             #    #    # #         #       #  #  #  #           #            \n",
+	"             #     ####  #         #       #   ##   ######                   \n",
+	"                                                                             \n",
+	"                    #####                                                    \n",
+	"                   #     #   ##   #    # ######  ####                        \n",
+	"                   #        #  #  ##  ## #      #                            \n",
+	"                   #  #### #    # # ## # #####   ####                        \n",
+	"                   #     # ###### #    # #           #                       \n",
+	"                   #     # #    # #    # #      #    #                       \n",
+	"                    #####  #    # #    # ######  ####                        \n"                                                                                                                                                                                                             
 	};
 
 
@@ -89,9 +91,11 @@ int main()
 	char options[OPTIONS][20] = {
 		"Lingo        ",
 		"Mine Sweaper ",
-		"Option 3     ",
-		"Option 4     ",
+		"Memory Game  ",
+		"Virus Game?  ",
+		"Enter Casino ",
 		"Scores       ",
+		"Settings     ",
 		"Exit         "
 	};
 
@@ -111,7 +115,7 @@ int main()
 		{
 			for(lineCounter = 0; lineCounter < 23; lineCounter ++)
 			{
-				for(letterCounter = 0; letterCounter < 76; letterCounter ++)
+				for(letterCounter = 0; letterCounter < 80; letterCounter ++)
 				{
 					printf("%c", Screen[lineCounter][letterCounter]);
 				}
@@ -192,7 +196,20 @@ int main()
 					playMineSweaper(&acctiveAccount);
 					break;
 
+					case 2:
+					//Chinese Memory Game
+					break;
+
+					case 3:
+					//Jake's Virus Game is ever finished
+					break;
+
 					case 4:
+					//Casino
+					break;
+
+					case 5:
+					//stats
 					system("cls");
 					for(counter = 0; counter < 7; counter ++)
 					{
@@ -205,11 +222,10 @@ int main()
 					
 					printf("\n\n\n");
 					scoreDisplay(acctiveAccount);
-					//finish latter when games have been finished
 					pressTo();
 					break;
 
-					case 5:
+					case 7:
 					system("cls");
 					for(counter = 0; counter < 15; counter ++)
 					{	printf("   ");
