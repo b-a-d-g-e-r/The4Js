@@ -5,30 +5,32 @@
 #include<string.h>
 #include<ctype.h>
 
+#define POUND 156
+
 void roulette();
 void blackjack();
 void slotmachine();
 
 //global variables
-int JamesChoicez, JamesMoneyz=50, JamezBet=0;
+int JamesMoneyz=50;
 
-int main()
+int Casino()
 {
-    int a=0;
+    int gameOver=0, choice;
 
-    while(a==0)
+    while(gameOver==0)
     {
         if(JamesMoneyz==0)
         {
             printf("\nAll out of money, Sorry :(\n");
-            a=1;
+            gameOver=1;
         }
         
         else
         {
             printf("Welcome to the underage gambling simulator.\nDo you want to play:\n1: Blackjack\n2: Roulette\n3: Slot Machine\n4: Exit\n");
-            scanf("%d",&JamesChoicez);
-            switch(JamesChoicez)
+            scanf("%d",&choice);
+            switch(choice)
             {
                 case 1:
                 blackjack();
@@ -43,7 +45,7 @@ int main()
                 break;
 
                 case 4: 
-                a=1;
+                gameOver=1;
                 break;
            }
         }
@@ -52,9 +54,10 @@ int main()
 
 void blackjack()
 {
+    int bet = 0;
     int pscore=0,dscore=0,i=0,card,j=0,rannum2,dturn;
     int Brepeat=0;
-    char symbol[4][10] = {"Hearts\0","Diamonds\0","Clubs\0","Clover\0"};
+    char symbol[4][10] = {"Hearts\0","Diamonds\0","Clubs\0","Spades\0"};
     char draw[10];
     char checker[2][10] = {"draw\0","stand\0"};
     
@@ -70,16 +73,16 @@ void blackjack()
         else
         {
             dturn=0;
-            printf("\nYou have £%d\nEnter how much you want to bet or enter '0' to return to the game select ",JamesMoneyz);
-            scanf("%d",&JamezBet);
+            printf("\nYou have %c%d\nEnter how much you want to bet or enter '0' to return to the game select ",POUND, JamesMoneyz);
+            scanf("%d",&bet);
 
-            while(JamezBet>JamesMoneyz)
+            while(bet>JamesMoneyz)
             {
-                printf("You only ave £%d, Enter a valid bet: ",JamesMoneyz);
-                scanf("%d",&JamezBet);
+                printf("You only ave %c%d, Enter a valid bet: ",POUND, JamesMoneyz);
+                scanf("%d",&bet);
             }
 
-            if(JamezBet==0)
+            if(bet==0)
             {
                 Brepeat=1;
                 dturn=1;
@@ -87,7 +90,7 @@ void blackjack()
 
             else
             {
-                JamesMoneyz=JamesMoneyz-JamezBet;
+                JamesMoneyz=JamesMoneyz-bet;
                 // your turn
                 pscore=0;
                 j=0;
@@ -133,9 +136,9 @@ void blackjack()
                     
                     if(pscore==21)
                     {
-                        JamezBet=JamezBet*2;
-                        printf("\nBlackjack! You scored exactly 21 and received £%d",JamezBet);
-                        JamesMoneyz=JamesMoneyz+JamezBet;
+                        bet=bet*2;
+                        printf("\nBlackjack! You scored exactly 21 and received %c%d",POUND, bet);
+                        JamesMoneyz=JamesMoneyz+bet;
                         j=1;
                         dturn=1;
                     }
@@ -217,9 +220,9 @@ void blackjack()
         
                     else
                     {
-                        JamezBet=JamezBet*2;
-                        printf("**Dealer went bust, You win and receive £%d**",JamezBet);
-                        JamesMoneyz=JamesMoneyz+JamezBet;
+                        bet=bet*2;
+                        printf("**Dealer went bust, You win and receive %c%d**",POUND, bet);
+                        JamesMoneyz=JamesMoneyz+bet;
                     }
                 }
             }
@@ -229,7 +232,7 @@ void blackjack()
 
 void roulette()
 {
-    int Rrepeat=0;
+    int Rrepeat=0, bet = 0, choice;
     printf("\nWelcome to roulette\n");
     char colour[2][10]={"black\0","red\0"};
     char colourg[10];
@@ -244,23 +247,23 @@ void roulette()
 
         else
         {
-            printf("You have £%d\nHow much would you like to bet? ",JamesMoneyz);
-            scanf("%d",&JamezBet);
-            while(JamezBet>JamesMoneyz)
+            printf("You have %c%d\nHow much would you like to bet? ",POUND, JamesMoneyz);
+            scanf("%d",&bet);
+            while(bet>JamesMoneyz)
             {
-                printf("Not enough money, You only have £%d. Enter a bet: ",JamesMoneyz);
-                scanf("%d",&JamezBet);
+                printf("Not enough money, You only have %c%d. Enter a bet: ",POUND, JamesMoneyz);
+                scanf("%d",&bet);
             }
-            JamesMoneyz=JamesMoneyz-JamezBet;
+            JamesMoneyz=JamesMoneyz-bet;
 
             srand(time(NULL));
             int rannum=rand() % 50;
             int rancol=rand() % 2;
 
             printf("\nWould you like to guess the:\n1: Colour(x2 payout)\n2: Number(x5 payout)\n3: Number and Colour(x20 payout)\n4: Switch Game\n ");
-            scanf("%d",&JamesChoicez);
+            scanf("%d",&choice);
 
-            switch(JamesChoicez)
+            switch(choice)
             {
                 case 1: 
                 printf("\nEnter the colour you think it will be (red or black)\n");
@@ -269,9 +272,9 @@ void roulette()
 
                 if(check==0)
                 {
-                    JamezBet=JamezBet*2;
-                    printf("\nCorrect, the wheel landed on %s %d You receive £%d\n",colour[rancol],rannum,JamezBet);
-                    JamesMoneyz=JamesMoneyz+JamezBet;
+                    bet=bet*2;
+                    printf("\nCorrect, the wheel landed on %s %d You receive %c%d\n",colour[rancol],rannum,POUND, bet);
+                    JamesMoneyz=JamesMoneyz+bet;
                 }
 
                 else
@@ -286,9 +289,9 @@ void roulette()
 
                 if(numg==rannum)
                 {
-                    JamezBet=JamezBet*5;
-                    printf("\nCorrect, the wheel landed on %s %d You receive £%d\n",colour[rancol],rannum,JamezBet);
-                    JamesMoneyz=JamesMoneyz+JamezBet;
+                    bet=bet*5;
+                    printf("\nCorrect, the wheel landed on %s %d You receive %c%d\n",colour[rancol],rannum,POUND, bet);
+                    JamesMoneyz=JamesMoneyz+bet;
                 }
 
                 else
@@ -306,9 +309,9 @@ void roulette()
 
                 if(check==0 && numg==rannum)
                 {
-                    JamezBet=JamezBet*20;
-                    printf("\nJackpot! the wheel landed on %s %d and you guessed it right! you receive £%d",colour[rancol],rannum,JamezBet);
-                    JamesMoneyz=JamesMoneyz+JamezBet;
+                    bet=bet*20;
+                    printf("\nJackpot! the wheel landed on %s %d and you guessed it right! you receive %c%d",colour[rancol],rannum,POUND, bet);
+                    JamesMoneyz=JamesMoneyz+bet;
                 }
 
                 else
@@ -318,7 +321,7 @@ void roulette()
                 break;
 
                 case 4:
-                JamesMoneyz=JamesMoneyz+JamezBet;
+                JamesMoneyz=JamesMoneyz+bet;
                 Rrepeat=1;
                 break;
             }
@@ -328,6 +331,7 @@ void roulette()
 
 void slotmachine()
 {
+    int bet = 0;
     int l,k=0,ranspina,ranspinb,ranspinc;
     char choice[4];
    
@@ -336,7 +340,7 @@ void slotmachine()
     
     while(k==0)
     {
-        printf("\nYou have £%d\nWould you like to: \nplay (£1)\nExit to menu\n",JamesMoneyz);
+        printf("\nYou have %c%d\nWould you like to: \nplay (%c1)\nExit to menu\n",POUND, JamesMoneyz, POUND);
         fflush(stdin);
         scanf("%s",&choice);
         srand(time(NULL));
@@ -389,11 +393,11 @@ void slotmachine()
                 {
                     case 6: 
                     JamesMoneyz=JamesMoneyz+10000;
-                    printf("**Jackpot!** You won £10,000");
+                    printf("**Jackpot!** You won %c10,000", POUND);
                     break;
 
                     default:
-                    printf("Well done! You got 3 matching %ss, You win £500",output[ranspina+3]);
+                    printf("Well done! You got 3 matching %ss, You win %c500",output[ranspina+3], POUND);
                     JamesMoneyz=JamesMoneyz+500;
                     break;
                 }
