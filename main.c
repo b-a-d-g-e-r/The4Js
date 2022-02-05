@@ -206,6 +206,9 @@ int main()
 
 					case 4:
 					//Casino
+					system("cls");
+					Casino(&acctiveAccount);
+					writeAccount(&acctiveAccount);
 					break;
 
 					case 5:
@@ -375,9 +378,9 @@ int logIn(struct player* playerStorage)
 								playerStorage->scores[1] = playerBuffer.scores[1];
 								playerStorage->scores[2] = playerBuffer.scores[2];
 								playerStorage->scores[3] = playerBuffer.scores[3];
+								playerStorage->scores[4] = playerBuffer.scores[4];
 
 								playerStorage->location = playerBuffer.location;
-								playerStorage->money =playerBuffer.money;
 								return 1;
 							}
 						}
@@ -460,15 +463,16 @@ int logIn(struct player* playerStorage)
 						playerStorage->scores[1] = 0;
 						playerStorage->scores[2] = 0;
 						playerStorage->scores[3] = 0;
+						playerStorage->scores[4] = 50;
 
 						playerStorage->attempts[0] = 0;
 						playerStorage->attempts[1] = 0;
 						playerStorage->attempts[2] = 0;
 						playerStorage->attempts[3] = 0;
+						playerStorage->scores[4] = 50;
 
 						fseek(accountFile, 0, SEEK_END);
 						playerStorage->location = ftell(accountFile) / sizeof(struct player);
-						playerStorage->money = 50;
 
 						fclose(accountFile);
 						fopen("accountInfo.bin", "ab");
@@ -599,11 +603,12 @@ void getLeader(struct stat list[5])
 	int tempScore, temp;
 	int input, swapped = 1;
 
-	char options[4][20] = {
+	char options[5][20] = {
 	"Lingo        ",
 	"Mine Sweaper ",
-	"Option 3     ",
-	"Option 4     ",
+	"Memory Game  ",
+	"Virus Game?  ",
+	"Casino       "
 	};
 
 
@@ -615,7 +620,7 @@ void getLeader(struct stat list[5])
 		printf("What game do you want to see the leader board for?\n\n");
 
 		printf("\t\t\t -----------------\n");
-		for(counter1 = 0; counter1 < 4; counter1 ++)
+		for(counter1 = 0; counter1 < 5; counter1 ++)
 		{
 			printf("\t\t\t| %s", options[counter1]);
 			if(selection == counter1)
@@ -638,13 +643,13 @@ void getLeader(struct stat list[5])
 			selection --;
 			if(selection < 0)
 			{
-				selection = 3;
+				selection = 4;
 			}
 			break;
 
 			case 2:
 			selection ++;
-			if(selection >= 4)
+			if(selection >= 5)
 			{
 				selection = 0;
 			}
@@ -689,7 +694,15 @@ void getLeader(struct stat list[5])
 		printf("\t\t\tName   -   Score\n\n");
 		for(counter1 = 0; counter1 < size; counter1 ++)
 		{
-			printf("\t\t\t%s  -   %d\n", statistics[counter1].userName, statistics[counter1].score);
+			if(game_index == 4)
+			{
+				printf("\t\t\t%s  -   %c%d\n", statistics[counter1].userName, POUND, statistics[counter1].score);
+			}
+
+			else
+			{
+				printf("\t\t\t%s  -   %d\n", statistics[counter1].userName, statistics[counter1].score);
+			}
 		}
 		printf("\n\n");
 		pressTo();
