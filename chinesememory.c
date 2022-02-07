@@ -23,8 +23,8 @@ int main()
     {
         for(y=0;y<6;y++)
         {
-        	userboard[x][y] = '¦';
-        	revealed[x][y] = '¦';
+        	userboard[x][y] = 'Â¦';
+        	revealed[x][y] = 'Â¦';
     	}
 	}	
 	int select = 0;
@@ -55,8 +55,8 @@ void SoloGame(char array[5][6],char userboard[5][6],char revealed[5][6],char tem
     {
         for(y=0;y<6;y++)
         {
-        	userboard[x][y] = '¦';
-        	revealed[x][y] = '¦';
+        	userboard[x][y] = 'Â¦';
+        	revealed[x][y] = 'Â¦';
     	}
 	}	
 	printf("Solo game selected!\n");	
@@ -183,6 +183,7 @@ void game(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboa
 	}while((userinp3 == userinp1) && (userinp2 == userinp4));
 	tempboard[userinp3][userinp4] = array[userinp3][userinp4];
 	system("cls");
+	printf("\t1\t2\t3\t4\t5\t6\n\n");
 	for(h=0;h<5;h++)
     {
     	printf("%d",g + 1);
@@ -219,7 +220,7 @@ void game(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboa
 	{
 		tries++;
 	}
-	tempboard[userinp1][userinp2],tempboard[userinp3][userinp4] = '¦';  
+	tempboard[userinp1][userinp2],tempboard[userinp3][userinp4] = 'Â¦';  
 	if (number == 0)
 	{
 		printf("Total failed tries = %d\nTotal Score = %d\n\nPRESS ANY KEY TO CONTINUE",tries,1000-tries*5);	
