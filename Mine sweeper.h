@@ -586,22 +586,22 @@ int getMove()
 		}while(input == -32|| input == 0);
 
 
-		if(input == 119 || input == 87 || input == 72)
+		if(input == 119 || input == 72 || input == 56)
 		{
 			return 1;
 		}
 
-		else if(input == 115 || input == 83 || input == 80)
+		else if(input == 115 || input == 50 || input == 80)
 		{	
 			return 2;
 		}
 
-		else if(input == 97 || input == 65 || input == 75)
+		else if(input == 97 || input == 52 || input == 75)
 		{
 			return 3;
 		}
 
-		else if(input == 100 || input == 68 || input == 54)
+		else if(input == 100 || input == 77 || input == 54)
 		{
 			return 4;
 		}
