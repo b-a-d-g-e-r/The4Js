@@ -25,6 +25,7 @@ void scoreDisplay(struct player currentAccout);
 int checkPossition(int game_index, struct player currentAccout);
 void getLeader(struct stat list[5]);
 void swapstat(struct stat *one, struct stat *two);
+void setting();
 
 
 
@@ -198,10 +199,12 @@ int main()
 
 					case 2:
 					//Chinese Memory Game
+					writeAccount(&acctiveAccount);
 					break;
 
 					case 3:
-					//Jake's Virus Game is ever finished
+					//Jake's Virus Game, if ever finished
+					writeAccount(&acctiveAccount);
 					break;
 
 					case 4:
@@ -228,7 +231,12 @@ int main()
 					pressTo();
 					break;
 
+					case 6:
+					setting();
+					break;
+
 					case 7:
+					//exit
 					system("cls");
 					for(counter = 0; counter < 15; counter ++)
 					{	printf("   ");
@@ -247,6 +255,7 @@ int main()
 					if(input == 13)
 					{
 						flag = 0;
+						system("color 07");
 					}
 					break;
 
@@ -546,8 +555,8 @@ void scoreDisplay(struct player currentAccout)
 	char Games[5][20] = {
 		"    Lingo    ",
 		"Mine  Sweaper",
-		"  option  3  ",
-		"  option  4  "
+		" Memory Game ",
+		" Virus Game? "
 	};
 
 	int counter;
@@ -622,7 +631,7 @@ void getLeader(struct stat list[5])
 		printf("\t\t\t -----------------\n");
 		for(counter1 = 0; counter1 < 5; counter1 ++)
 		{
-			printf("\t\t\t| %s", options[counter1]);
+			printf("\t\t\t\t| %s", options[counter1]);
 			if(selection == counter1)
 			{
 				printf(" < |");
@@ -722,4 +731,183 @@ void swapstat(struct stat *one, struct stat *two)
 
 	strcpy(two->userName, tempName);
 	two->score = tempScore;	
+}
+
+void setting()
+{
+	int section=0, selection=0, input,counter, back = -1, front = -1;
+	char backColor, frontColor;
+	char command[10];
+
+	char firstSelections[4][19] =
+	{
+		"     Black    ",
+		"     White    ",
+		" Bright Green ",
+		" Normal Green "
+	};
+
+	system("color");
+	do
+	{
+		system("cls");
+		printf("\t\t\t\t ---------------------- \n");
+		printf("\t\t\t\t|   Background Color   |\n");
+		printf("\t\t\t\t|                      |\n");
+		for(counter = 0; counter < 4; counter ++)
+		{
+			if(selection == counter && section == 0)
+			{
+				printf("\t\t\t\t|    %s<<< |\n", firstSelections[counter]);
+			}
+
+			else
+			{
+				printf("\t\t\t\t|    %s    |\n", firstSelections[counter]);
+			}
+		}
+
+
+		printf("\t\t\t\t|                      |\n");
+		printf("\t\t\t\t|                      |\n");
+		printf("\t\t\t\t|   Foreground Color   |\n");
+		printf("\t\t\t\t|                      |\n");
+		for(counter = 0; counter < 4; counter ++)
+		{
+			if(selection == counter && section == 1)
+			{
+				printf("\t\t\t\t|    %s<<< |\n", firstSelections[counter]);
+			}
+
+			else
+			{
+				printf("\t\t\t\t|    %s    |\n", firstSelections[counter]);
+			}
+		}
+
+		printf("\t\t\t\t|                      |\n");
+		printf("\t\t\t\t|                      |\n");
+
+		if(section == 1 && selection == 4)
+		{
+			printf("\t\t\t\t|A tribute to Rhys Mils| <<<\n");
+		}
+
+		else
+		{
+			printf("\t\t\t\t|A tribute to Rhys Mils|\n");
+		}
+
+		printf("\t\t\t\t|                      |\n");
+		printf("\t\t\t\t ---------------------- \n");
+
+		input = getMove();
+
+		switch(input)
+		{
+			case 1:
+			selection--;
+
+			if(section == 0)
+			{
+				if(selection < 0)
+				{
+					selection = 3;
+				}
+			}
+
+			else
+			{
+				if(selection < 0)
+				{
+					selection = 4;
+				}
+			}
+
+			break;
+
+			case 2:
+			selection ++;
+
+
+			if(section == 0)
+			{
+				if(selection > 3)
+				{
+					selection = 0;
+				}
+			}
+
+			else
+			{
+				if(selection > 4)
+				{
+					selection = 0;
+				}
+			}
+			break;
+
+			case 5:
+			if(section == 0)
+			{
+				front = selection;
+				section ++;
+			}
+
+			else
+			{
+				if(selection != 4)
+				{
+					back = selection;
+					input = 6;
+					printf("\nTest\n");
+				}
+				else
+				{
+					// Put the Box game here
+				}
+			}
+			break;
+		}
+	}while(input != 6);
+
+	switch(front)
+	{
+		case 0:
+		frontColor = '0';
+		break;
+
+		case 1:
+		frontColor = '7';
+		break;
+
+		case 2:
+		frontColor = 'A';
+		break;
+
+		case 3:
+		frontColor = '2';
+		break;
+	}
+
+	switch(back)
+	{
+		case 0:
+		backColor = '0';
+		break;
+
+		case 1:
+		backColor = '7';
+		break;
+
+		case 2:
+		backColor = 'A';
+		break;
+
+		case 3:
+		backColor = '2';
+		break;
+	}
+	sprintf(command, "color %c%c", backColor, frontColor);
+	system(command);
 }
