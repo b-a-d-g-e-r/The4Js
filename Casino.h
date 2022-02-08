@@ -374,17 +374,17 @@ void slotmachine(int *money)
 
                     case 1:
                     printf("\n%s Rolling Rolling",output[ranspina+3]);
-                    // sleep(2);
+                    sleep(2);
                     break;
 
                     case 2:
                     printf("\n%s %s Rolling",output[ranspina+3],output[ranspinb+3]);
-                   // sleep(2);
+                    sleep(2);
                     break;
 
                     case 3:
                     printf("\n%s %s %s\n",output[ranspina+3],output[ranspinb+3],output[ranspinc+3]);
-                    // sleep(2);
+                    sleep(2);
                     break;
                 }
             }
