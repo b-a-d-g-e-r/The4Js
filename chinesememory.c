@@ -4,7 +4,7 @@
 
 #define z 30
 
-
+// All jacpb symes
 void RandomBoard(char array[5][6]);
 void guess(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6],int number, int tries);
 void game(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6],int number,int tries);
