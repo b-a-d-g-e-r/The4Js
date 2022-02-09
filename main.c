@@ -2,6 +2,8 @@
 #include"Mine Sweeper.h"
 #include"Casino.h"
 
+#include"randomgame.h"
+
 #include<stdio.h>
 #include<stdlib.h>
 #include<string.h>
@@ -114,6 +116,7 @@ int main()
 	{
 		while(flag == 1)
 		{
+			system("cls");
 			for(lineCounter = 0; lineCounter < 23; lineCounter ++)
 			{
 				for(letterCounter = 0; letterCounter < 80; letterCounter ++)
@@ -181,24 +184,25 @@ int main()
 			}
 
 
+
 			else if(input == 13)
 			{
+				system("cls");
 				switch(selection)
 				{
 					case 0:
 					//lingo
-					system("cls");
 					playLingo(&acctiveAccount);
 					break;
 
 					case 1:
 					// Mine Sweaper
-					system("cls");
 					playMineSweaper(&acctiveAccount);
 					break;
 
 					case 2:
 					//Chinese Memory Game
+
 					writeAccount(&acctiveAccount);
 					break;
 
@@ -209,14 +213,12 @@ int main()
 
 					case 4:
 					//Casino
-					system("cls");
 					Casino(&acctiveAccount);
 					writeAccount(&acctiveAccount);
 					break;
 
 					case 5:
 					//stats
-					system("cls");
 					for(counter = 0; counter < 7; counter ++)
 					{
 						printf("\t       ");
@@ -237,7 +239,6 @@ int main()
 
 					case 7:
 					//exit
-					system("cls");
 					for(counter = 0; counter < 15; counter ++)
 					{	printf("   ");
 						for(letterCounter = 0; letterCounter < 70; letterCounter ++)
@@ -256,6 +257,7 @@ int main()
 					{
 						flag = 0;
 						system("color 07");
+						printf("Thank you for playing,%s.", acctiveAccount.userName);
 					}
 					break;
 
@@ -628,7 +630,7 @@ void getLeader(struct stat list[5])
 		system("cls");
 		printf("What game do you want to see the leader board for?\n\n");
 
-		printf("\t\t\t -----------------\n");
+		printf("\t\t\t\t -----------------\n");
 		for(counter1 = 0; counter1 < 5; counter1 ++)
 		{
 			printf("\t\t\t\t| %s", options[counter1]);
@@ -643,7 +645,7 @@ void getLeader(struct stat list[5])
 			}
 			printf("\n");
 		}
-		printf("\t\t\t -----------------");
+		printf("\t\t\t\t -----------------");
 		input = getMove();
 
 		switch(input)
@@ -864,7 +866,7 @@ void setting()
 				}
 				else
 				{
-					// Put the Box game here
+					playBox();
 				}
 			}
 			break;
