@@ -42,7 +42,7 @@ int thirdSelection();
 void writeAccount(struct player *currentAccount);
 
 
-
+//Jonathan Noble
 
 int playMineSweaper(struct player* currentAccount)
 {
