@@ -34,7 +34,7 @@ void game()
 	system("cls");
 }
 
-int main()
+int playBox()
 {
 	system("cls");
 	srand (time(NULL));
@@ -70,12 +70,12 @@ int main()
 					break;
 			}
 			system("PAUSE");
-			main();
+			playBox();
 		case 3:
 			return 0; 
 		default:
 			printf("Invalid Input!\n");
 	}
-	main();
+	playBox();
 	return 0;
 }
