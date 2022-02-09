@@ -19,9 +19,8 @@ struct player
 {
 	char userName[10];
 	char password[10];
-	int scores[4];
+	int scores[5];
 	int attempts[4];
-	int money;
 	int location;
 };
 
@@ -55,14 +54,14 @@ int playLingo(struct player* currentAccount)
 		active = playLingoRound(size, acctiveWord, &points);
 	}while(active == 1);
 
+	currentAccount->attempts[LINGO_INDEX] = currentAccount->attempts[LINGO_INDEX] + 1;
 	do
 	{
 		system("cls");
-		currentAccount->attempts[LINGO_INDEX] = currentAccount->attempts[LINGO_INDEX] + 1;
 		printf("You scored %d points:", points);
 		printf("\n\n");
 		printf("Total attempts = %d\n", currentAccount->attempts[LINGO_INDEX]);
-		printf("Best previous score =");
+		printf("Best previous score =", currentAccount->scores[LINGO_INDEX]);
 
 		if(points < currentAccount->scores[LINGO_INDEX])
 		{
@@ -71,13 +70,13 @@ int playLingo(struct player* currentAccount)
 
 		else if(points > currentAccount->scores[LINGO_INDEX])
 		{
+			printf(" %d  \nNEW High Score!!!\n", currentAccount->scores[LINGO_INDEX]);
 			currentAccount->scores[LINGO_INDEX] = points;
-			printf(" %d  \nNEW High Score!!!\n");
 		}
 
 		else
 		{
-			printf(" %d \nAlmost a New High Score...\n");
+			printf(" %d \nAlmost a New High Score...\n", currentAccount->scores[LINGO_INDEX]);
 		}
 		
 
@@ -173,6 +172,7 @@ int playLingoRound(int size, char word[size], int *points)
 	while(attemptNumber <= MAX_ATTEMPTS && flag == 1)
 	{
 		flag = 1;
+		// printf("\n%s\n", word);
 		//displaying board and getting user input
 		do
 		{
@@ -255,7 +255,8 @@ int playLingoRound(int size, char word[size], int *points)
 		do
 		{
 			printf("well done would you like to play again, to get more points(Y/N): ");
-			scanf("%c", inputLetter);
+			fflush(stdin);
+			scanf("%c", &inputLetter);
 			system("cls");
 		}while (inputLetter != 'Y' && inputLetter != 'N' && inputLetter != 'n' && inputLetter != 'y');
 
@@ -328,7 +329,7 @@ void printfLine(int size, char wrongPlaceLoc[size], char pastAttempts[size], int
 {
 	int counter1, counter2, counter3;
 
-	printf(" ");
+	printf("\t\t\t ");
 	for(counter1 = 0; counter1 <= size * 4 - 2; counter1 ++)
 	{
 		printf("-");
@@ -337,6 +338,7 @@ void printfLine(int size, char wrongPlaceLoc[size], char pastAttempts[size], int
 
 	for(counter1 = 0; counter1 < 3; counter1 ++)
 	{
+		printf("\t\t\t");
 		for(counter2 = 0; counter2 < size; counter2++)
 		{
 			if(counter1 == 1)
@@ -361,7 +363,7 @@ void printfLine(int size, char wrongPlaceLoc[size], char pastAttempts[size], int
 		}
 	}
 
-	printf(" ");
+	printf("\t\t\t ");
 	for(counter1 = 0; counter1 <= size * 4 - 2; counter1 ++)
 	{
 		printf("-");
