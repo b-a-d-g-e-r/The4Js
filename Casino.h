@@ -12,6 +12,7 @@ void roulette(int *money);
 void blackjack(int *money);
 void slotmachine(int *money);
 
+//James Vincent
 
 int Casino(struct player* currentAccount)
 {
