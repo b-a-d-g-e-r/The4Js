@@ -9,7 +9,7 @@
 #include<string.h>
 #include<conio.h>
 
-#define OPTIONS 8
+#define OPTIONS 9
 #define SELECTIONS 4
 
 
@@ -98,6 +98,7 @@ int main()
 		"Virus Game?  ",
 		"Enter Casino ",
 		"Scores       ",
+		"Leader Board ",
 		"Settings     ",
 		"Exit         "
 	};
@@ -198,6 +199,7 @@ int main()
 					case 1:
 					// Mine Sweaper
 					playMineSweaper(&acctiveAccount);
+					writeAccount(&acctiveAccount);
 					break;
 
 					case 2:
@@ -234,10 +236,14 @@ int main()
 					break;
 
 					case 6:
-					setting();
+					getLeader(NULL);
 					break;
 
 					case 7:
+					setting();
+					break;
+
+					case 8:
 					//exit
 					for(counter = 0; counter < 15; counter ++)
 					{	printf("   ");
@@ -257,7 +263,7 @@ int main()
 					{
 						flag = 0;
 						system("color 07");
-						printf("Thank you for playing,%s.", acctiveAccount.userName);
+						printf("Thank you for playing, %s.", acctiveAccount.userName);
 					}
 					break;
 
