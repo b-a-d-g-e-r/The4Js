@@ -12,7 +12,7 @@
 #define OPTIONS 9
 #define SELECTIONS 4
 
-
+//Jacob made all of this part :)
 struct stat
 {
 	char userName[10];
