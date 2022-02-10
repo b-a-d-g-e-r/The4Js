@@ -1,6 +1,7 @@
 #include"lingo.h"
 #include"Mine Sweeper.h"
 #include"Casino.h"
+#include"chinesememory.h"
 
 #include"randomgame.h"
 
@@ -204,7 +205,7 @@ int main()
 
 					case 2:
 					//Chinese Memory Game
-
+					playChineseMemoryGame(&acctiveAccount);
 					writeAccount(&acctiveAccount);
 					break;
 
