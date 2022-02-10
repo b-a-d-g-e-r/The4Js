@@ -2,7 +2,7 @@
 #include<stdlib.h>
 #include<time.h>
 #include<conio.h>
-;
+
 #define z 30
 #define CHINESE_INDEX 2
 
