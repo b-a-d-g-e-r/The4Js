@@ -3,7 +3,7 @@
 #include<time.h>
 
 int a = 10;
-void game()
+void BoxGame()
 {
 	int i = 0;	
 	int score = 0;
@@ -45,7 +45,7 @@ int playBox()
 	switch (select)
 	{
 		case 1:
-			game();
+			BoxGame();
 			break;
 		case 2:
 			printf("Adjust difficulty : \n1. Easy\n2. Medium\n3. Hard\n4. Expert\n\n:");
