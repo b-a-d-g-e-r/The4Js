@@ -1,17 +1,19 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
-
+#include<conio.h>
+;
 #define z 30
+#define CHINESE_INDEX 2
 
 // All jacpb symes
 void RandomBoard(char array[5][6]);
-void guess(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6],int number, int tries);
-void game(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6],int number,int tries);
-void SoloGame(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6]);
-void MultGame(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6]);
+void guess(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6],int number,int tries, struct player* currentAccount);
+void game(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6],int number,int tries,struct player* currentAccount);
+void SoloGame(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6], struct player* currentAccount);
+void MultGame(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6], struct player* currentAccount);
 
-int main()
+int playChineseMemoryGame(struct player *currentAccount)
 {
 	char array[5][6];
 	char userboard[5][6];
@@ -34,20 +36,22 @@ int main()
 	switch (select)
 	{
 		case 1:
-			SoloGame(array,userboard,revealed,tempboard);
+			writeAccount(currentAccount);
+			currentAccount->attempts[CHINESE_INDEX] = currentAccount->attempts[CHINESE_INDEX] + 1;
+			SoloGame(array,userboard,revealed,tempboard, currentAccount);
 			break;
 		case 2:
-			MultGame(array,userboard,revealed,tempboard);
+			MultGame(array,userboard,revealed,tempboard, currentAccount);
 			break;
 		case 3:
 			return 0; 
 		default:
 			printf("Invalid Input!\n");
 	}
-	main();
+	playChineseMemoryGame(currentAccount);
 } 	
 
-void SoloGame(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6])
+void SoloGame(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6], struct player* currentAccount)
 {
 	int game,number,tries = 0;
 	int fin,x,y,j = 0;
@@ -61,15 +65,15 @@ void SoloGame(char array[5][6],char userboard[5][6],char revealed[5][6],char tem
 	}	
 	printf("Solo game selected!\n");	
 	RandomBoard(array);
-	guess(array,userboard,revealed,tempboard,number,tries);
+	guess(array,userboard,revealed,tempboard,number,tries, currentAccount);
 }
-void MultGame(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6])
+void MultGame(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6], struct player* currentAccount)
 {
 	int number = 1;
 	int tries = 0;
 	printf("Local Multiplayer game selected!");
 	RandomBoard(array);
-	guess(array,userboard,revealed,tempboard,number,tries);
+	guess(array,userboard,revealed,tempboard,number,tries, currentAccount);
 }
 
 void RandomBoard(char array[5][6])
@@ -101,7 +105,7 @@ void RandomBoard(char array[5][6])
     }
 } 
 
-void guess(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6],int number,int tries)
+void guess(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6],int number,int tries, struct player* currentAccount)
 {
 	int counter,x,y,a,score = 0;
 	system("cls");
@@ -137,14 +141,14 @@ void guess(char array[5][6],char userboard[5][6],char revealed[5][6],char tempbo
     if (score == 30)
     {
     	printf("\n\nGAME OVER! YOU WIN!");
-    	main();
+    	playChineseMemoryGame(currentAccount);
 	}
-    game(array,userboard,revealed,tempboard,number,tries);
+    game(array,userboard,revealed,tempboard,number,tries, currentAccount);
 }
 
-void game(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6],int number,int tries)
+void game(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboard[5][6],int number,int tries,struct player* currentAccount)
 {
-	int userinp1, userinp2,userinp3,userinp4,h,f,g = 0;
+	int userinp1, userinp2,userinp3,userinp4,h,f,g = 0, points = 1000;
 	printf("ENTER A COORDINATE [x,y] : ");
 	scanf("%d,%d",&userinp2,&userinp1);
 	userinp2--;userinp1--;
@@ -223,9 +227,13 @@ void game(char array[5][6],char userboard[5][6],char revealed[5][6],char tempboa
 	tempboard[userinp1][userinp2],tempboard[userinp3][userinp4] = '¦';  
 	if (number == 0)
 	{
-		printf("Total failed tries = %d\nTotal Score = %d\n\nPRESS ANY KEY TO CONTINUE",tries,1000-tries*5);	
+		printf("Total failed tries = %d\nTotal Score = %d\n\nPRESS ANY KEY TO CONTINUE",tries,1000-tries*5);
+		if(points-tries*5 > currentAccount->scores[CHINESE_INDEX])
+		{
+			currentAccount->scores[CHINESE_INDEX] = points -(tries * 5);
+		}
 	} 
 	getch();
 	system("cls");
-	guess(array,userboard,revealed,tempboard,number,tries);
+	guess(array,userboard,revealed,tempboard,number,tries,currentAccount);
 }
