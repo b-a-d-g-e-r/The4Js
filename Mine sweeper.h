@@ -636,7 +636,7 @@ void howToPlay()
 	do
 	{
 		system("cls");
-		printf("The Board of cells will be filled will cells that will either contain nothing(good) or mines(bad), the goal of the game\nis to clear all the empty cells while making sure not to hit a mine(game Over), if you clear an emtey space it will clear\nall the emtey spaces arround it. if you clear an empty space with mines surrounding it the cell will display how many mines are adjacent too\nit (including diagnals). the cell you are currently hovering over will be represented with the ,%c, symbol and if you chose to select this cell\nthis will change to the ,%c, symbol. To selected a cell you are hovering over press the enter key, which will bring up a promt to see what you\nwould like to do.\n\nNow you know how to play our mine sweaper you can go an enjoy out game.", 176, 178);
+		printf("The Board of cells will be filled will cells that will either contain nothing(good) or mines(bad), the goal of the game\nis to clear all the empty cells while making sure not to hit a mine(game Over), if you clear an emtey space it will clear\nall the emtey spaces arround it. if you clear an empty space with mines surrounding it the cell will display how many mines are adjacent too\nit (including diagnals). the cell you are currently hovering over will be represented with the ,%c, symbol and if you chose to select this cell\nthis will change to the ,%c, symbol. To selected a cell you are hovering over press the enter key, which will bring up a promt to see what you\nwould like to do, to Move this curser you can .\n\nNow you know how to play our mine sweaper you can go an enjoy out game.", 176, 178);
 		
 		printf("\n\nPress enter to return to the previous screen");
 		input = getMove();
