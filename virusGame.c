@@ -4,15 +4,24 @@
 #include <conio.h>
 #include <windows.h>
 
-int tick(char map[20][40], int score, int day);
+#define VIRUS_INDEX 3
+
+void saveAccount(struct player *currentAccount);
+//All Jake Ennis
+int tick(char map[20][40], int score, int day, struct player * currentAccount);
 void generateMap(char map[20][40]);
 void printMap(char map[20][40]);
-void gameOver(int finalScore, int finalDays);
-void selectMap(char map[20][40]);
+void gameOver(int finalScore, int finalDays, struct player *currentAccount);
+void selectMap(char map[20][40], char entity);
 
-void main() {
+void playVirus(struct player* currentAccount) {
     int i, j, x, y, input = 0, alive = 1, basePlaced = 0, action = 0, day = 0, round = 0;
     char map[20][40];
+
+    currentAccount->attempts[VIRUS_INDEX] = currentAccount->attempts[VIRUS_INDEX];
+    saveAccount(currentAccount);
+
+
     printf("It's the year 2200, COVID has long since been irradicated...\n");
     printf("COVID-19 that is...\n");
     printf("VIRUS V^rRS VIR<<><MOIKM.\n");
@@ -22,7 +31,7 @@ void main() {
         if(basePlaced == 0){
             printf("Where are we situated on this 20x40 plane of existance?\nEnter X coord: ");
 			while(basePlaced == 0) {
-				selectMap(char map[20][40]);
+				selectMap(map);
 			}
             scanf("%d", &x);
             printf("Enter Y coord: ");
@@ -32,7 +41,7 @@ void main() {
             system("cls");
         }
         printMap(map);
-        round = tick(map);
+        round = tick(map, score, day, currentAccount);
         printf("It's day %d, you got this.\n\nPlace Bomb >>> 1\nPlace Attacker >>> 2\nRandom Decay >>> 3\n\n", day);
 		fflush(stdin);
 		input = getch();
@@ -65,7 +74,7 @@ void main() {
     }
 }
 
-int tick(char map[20][40], int score, int day) {
+int tick(char map[20][40], int score, int day, struct player * currentAccount) {
     srand(time(NULL));
     int x, y, virusTotal = 0;
     for(x = 0; x < 20; x++) {
@@ -104,16 +113,16 @@ int tick(char map[20][40], int score, int day) {
             }
 			if(map[x][y] == '*') {
                 if((map[x-1][y] == 'B') && (rand() % 2 == 1)) {
-                    gameOver(score, day);
+                    gameOver(score, day, currentAccount);
                 }
                 if((map[x+1][y] == 'B') && (rand() % 2 == 1)) {
-                    gameOver(score, day);
+                    gameOver(score, day, currentAccount);
                 }
                 if((map[x][y-1] == '*') && (rand() % 2 == 1)) {
-                    gameOver(score, day);
+                    gameOver(score, day, currentAccount);
                 }
                 if((map[x][y+1] == '*') && (rand() % 2 == 1)) {
-                    gameOver(score, day);
+                    gameOver(score, day, currentAccount);
                 }
             }
         }
@@ -145,7 +154,7 @@ void printMap(char map[20][40]) {
 	}
 }
 
-void gameOver(int finalScore, int finalDays) {
+void gameOver(int finalScore, int finalDays, struct player *currentAccount) {
 	printf("BLOODY HELL, this is bad!\n\n This reality is DOOOOOOMED");
 	Sleep(500);
 	printf(".");
@@ -154,11 +163,17 @@ void gameOver(int finalScore, int finalDays) {
 	Sleep(500);
 	printf(".");
 	Sleep(2000);
-	printf("It's okay that this is a simulation then\nYou survived %d days, scoring %d points");
+	printf("It's okay that this is a simulation then\nYou survived %d days, scoring %d points", finalDays, finalScore);
+	if(finalScore > currentAccount->scores[VIRUS_INDEX])
+	{
+		printf("\n\nNEW HIGH SCORE!!!");
+		currentAccount->scores[VIRUS_INDEX] = finalScore;
+		saveAccount(currentAccount);
+	}
 }
 
 void selectMap(char map[20][40], char entity) {
-	int input, x = 0, y = 0;
+	int input, x = 0, y = 0, selected = 0;
 	char temp[20][40];
 	input = getch();
 	while(selected == 0) {
@@ -166,7 +181,7 @@ void selectMap(char map[20][40], char entity) {
 		map[x][y]=178;
 		if(input == 119) {
 			y++;
-			map[x][y-1] == temp[]
+			// map[x][y-1] == temp[] //this line is usless as it is comaping two values and doing nothing with the result, so if it was supposed to do something you need to change that
 		}
 		if(input == 115) {
 			y--;
@@ -183,4 +198,13 @@ void selectMap(char map[20][40], char entity) {
 		}
 		
 	}
+}
+
+
+void saveAccount(struct player *currentAccount)
+{
+	FILE *fp;
+	fp = fopen("accountInfo.bin", "rb+");
+	fseek(fp, currentAccount->location, SEEK_SET);
+	fwrite(currentAccount, sizeof(struct player), 1, fp);
 }
