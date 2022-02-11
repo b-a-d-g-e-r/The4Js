@@ -4,11 +4,13 @@
 #include <conio.h>
 #include <windows.h>
 
+#define VIRUS_INDEX 3
+
 int tick(char map[20][40], int score, int day);
 void generateMap(char map[20][40]);
 void printMap(char map[20][40]);
 void gameOver(int finalScore, int finalDays);
-void selectMap(char map[20][40]);
+void selectMap(char map[20][40], char entity);
 
 void main() {
     int i, j, x, y, input = 0, alive = 1, basePlaced = 0, action = 0, day = 0, round = 0;
@@ -22,7 +24,7 @@ void main() {
         if(basePlaced == 0){
             printf("Where are we situated on this 20x40 plane of existance?\nEnter X coord: ");
 			while(basePlaced == 0) {
-				selectMap(char map[20][40]);
+				selectMap(map);
 			}
             scanf("%d", &x);
             printf("Enter Y coord: ");
@@ -154,11 +156,11 @@ void gameOver(int finalScore, int finalDays) {
 	Sleep(500);
 	printf(".");
 	Sleep(2000);
-	printf("It's okay that this is a simulation then\nYou survived %d days, scoring %d points");
+	printf("It's okay that this is a simulation then\nYou survived %d days, scoring %d points", finalDays, finalScore);
 }
 
 void selectMap(char map[20][40], char entity) {
-	int input, x = 0, y = 0;
+	int input, x = 0, y = 0, selected = 0;
 	char temp[20][40];
 	input = getch();
 	while(selected == 0) {
@@ -166,7 +168,7 @@ void selectMap(char map[20][40], char entity) {
 		map[x][y]=178;
 		if(input == 119) {
 			y++;
-			map[x][y-1] == temp[]
+			// map[x][y-1] == temp[] //this line is usless as it is comaping two values and doing nothing with the result, so if it was supposed to do something you need to change that
 		}
 		if(input == 115) {
 			y--;
