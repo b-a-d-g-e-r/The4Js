@@ -1,10 +1,9 @@
-#include<conio.h>
 #include<stdio.h>
 #include<stdlib.h>
 #include<time.h>
+#include<conio.h>
 
 void endless();
-//Jacobs
 
 int a = 10;
 void boxgame()
@@ -138,7 +137,6 @@ void endless()
 		answers[af] = x;
 		temp = guess[0];
 		temp2 = answers[0];
-		printf("\nCurrent 20 Guesses = [");
 		for (times = 0 ;times < 19; times++)
 		{
 			guess[times] = guess[times+1];
@@ -150,7 +148,6 @@ void endless()
 		{
 			printf("%d, ",guess[times]);
 		}
-		printf("].\nCurrent 20 Answers = [");
 		for (times = 0;times<20;times++)
 		{
 			printf("%d, ",answers[times]);
