@@ -1,18 +1,21 @@
+//created by JAKE ENNIS
+//virusGame
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 #include <conio.h>
 #include <windows.h>
 
-void tick(char map[20][40], int day);
+int tick(char map[20][40], int day);
 void generateMap(char map[20][40]);
 void printMap(char map[20][40]);
 void gameOver(int finalDays);
 void selectMap(char map[20][40], char entity);
 
 void main() {
-    int i, j, x, y, input = 0, alive = 1, basePlaced = 0, action = 0, day = 0, round = 0;
-    char map[20][40], bomb = 155, base = 206, fighter = 245;
+    int i, j, x, y, input = 0, alive = 1, basePlaced = 0, action = 0, day = 0;
+    char map[20][40], bomb = 'O', base = 'B', fighter = 'F';
     printf("It's the year 2200, COVID has long since been irradicated...\n");
     printf("COVID-19 that is...\n");
     printf("VIRUS V^rRS VIR<<><MOIKM.\n");
@@ -20,7 +23,7 @@ void main() {
 
     while (alive == 1) {
         if(basePlaced == 0){
-            printf("Where are we situated on this 20x40 plane of existance?");
+            printf("Where are we situated on this 20x40 plane of existance?\n\n");
 			while(basePlaced == 0) {
 				selectMap(map, base);
 				basePlaced = 1;
@@ -28,55 +31,67 @@ void main() {
             system("cls");
         }
         printMap(map);
-        tick(map, day);
-        printf("It's day %d, you got this.\n\nPlace Bomb >>> 1\nPlace Attacker >>> 2\nRandom Decay >>> 3\n\n", day);
+        alive = tick(map, day);
+        printf("It's day %d, you got this.\n\nPlace Bomb >>> 1\nPlace Attacker >>> 2\n\n", day);
 		fflush(stdin);
 		input = getch();
 			if(input == 49) {
-        		printf("Now where goes bang?");
+				system("cls");
+        		printf("Now where goes bang?\n\n");
            		selectMap(map, bomb);
-          		printf("KABOOOOM!");
+          		printf("\n\nKABOOOOM!");
 				printMap(map);
            		Sleep(1000);
 			}
        		else if(input == 50) {
-				printf("ATTACK!");
+				system("cls");
+				printf("ATTACK!\n\n");
 				selectMap(map, fighter);
 				printMap(map);
 				Sleep(1000);
 			}
-        	else if(input == 51) {
-            
-			}
 		day++;
         system("cls");
     }
+		system("cls");
+		printf("BLOODY HELL, this is bad!\n\nThis reality is DOOOOOOMED\n\n");
+		Sleep(500);
+		printf(".");
+		Sleep(500);
+		printf(".");
+		Sleep(500);
+		printf(".");
+		Sleep(2000);
+		printf("It's okay that this is a simulation then\nYou survived %d days", day);
+		Sleep(5000);
+		
 }
 
-void tick(char map[20][40], int day) {
+int tick(char map[20][40], int day) {
     srand(time(NULL));
     int x, y, virusTotal = 0;
     for(x = 0; x < 20; x++) {
         for(y = 0; y < 40; y++) {
-            if(map[x][y] == '*') {
+            if(map[x][y] == 42) {
                 if((map[x-1][y] == ' ') && (rand() % 2 == 1) && (virusTotal < 2)) {
-                    map[x-1][y] = '*';
+                    map[x-1][y] = 42;
                     virusTotal++;
                 }
                 if((map[x+1][y] == ' ') && (rand() % 2 == 1) && (virusTotal < 2)) {
-                    map[x+1][y] = '*';
+                    map[x+1][y] = 42;
                     virusTotal++;
                 }
                 if((map[x][y-1] == ' ') && (rand() % 2 == 1) && (virusTotal < 3)) {
-                    map[x][y-1] = '*';
+                    map[x][y-1] = 42;
                     virusTotal++;
                 }
                 if((map[x][y+1] == ' ') && (rand() % 2 == 1) && (virusTotal < 3)) {
-                    map[x][y+1] = '*';
+                    map[x][y+1] = 42;
                     virusTotal++;
                 }
 			}
-			if(map[x][y] == 245) {
+			
+			if(map[x][y] == 'F') {
                 if((map[x-1][y] == '*') && (rand() % 2 == 1)) {
                     map[x-1][y] = ' ';
                 }
@@ -90,34 +105,38 @@ void tick(char map[20][40], int day) {
                     map[x][y+1] = ' ';
                 }
             }
-			if(map[x][y] == '*') {
-                if(map[x-1][y] == 'B') {
-                    gameOver(day);
+
+			if(map[x][y] == 'B') {
+                if(map[x-1][y] == '*') {
+                    return 0;
                 }
-                if(map[x+1][y] == 'B') {
-                    gameOver(day);
+                if(map[x+1][y] == '*') {
+                    return 0;
                 }
-                if(map[x][y-1] == 'B') {
-                    gameOver(day);
+                if(map[x][y-1] == '*') {
+                    return 0;
                 }
-                if(map[x][y+1] == 'B') {
-                    gameOver(day);
+                if(map[x][y+1] == '*') {
+                    return 0;
                 }
-			if(map[x][y] == 155) {
+			}
+
+			if((rand() % 10 > 9) && (map[x][y] == '*')) {
+				map[x][y] = ' ';
+			}
+
+			if(map[x][y] == 'O') {
 				map[x][y] = ' ';
          		map[x+1][y] = ' ';
          		map[x-1][y] = ' ';
          		map[x][y+1] = ' ';
          		map[x][y-1] = ' ';
 			}
-            }
         }
-	}
-	if(virusTotal == 0) {
-		generateMap(map);
-		return 1;
-	}
+    }
+	return 1;
 }
+
 
 void generateMap(char map[20][40]) {
     srand(time(NULL));
@@ -141,24 +160,16 @@ void printMap(char map[20][40]) {
 }
 
 void gameOver(int finalDays) {
-	printf("BLOODY HELL, this is bad!\n\n This reality is DOOOOOOMED");
-	Sleep(500);
-	printf(".");
-	Sleep(500);
-	printf(".");
-	Sleep(500);
-	printf(".");
-	Sleep(2000);
-	printf("It's okay that this is a simulation then\nYou survived %d days", finalDays);
+	
+
 }
 
 void selectMap(char map[20][40], char entity) {
 	int input, x = 0, y = 0, selected = 0;
-	char temp[20][40];
+	char temp;
 	printMap(map);
 	while(selected == 0) {
-		temp[x][y] = map[x][y];
-		map[x][y]=178;
+		temp = map[x][y];
 		do
 		{
 			fflush(stdin);
@@ -167,22 +178,26 @@ void selectMap(char map[20][40], char entity) {
 		}while(input == -32 || input == 0);
 		if(input == 72) {
 			x--;
-			map[x+1][y]=temp[x+1][y];
+			map[x][y] = 178;
+			map[x+1][y]=' ';
 			printMap(map);
 		}
 		if(input == 80) {
 			x++;
-			map[x-1][y]=temp[x-1][y];
+			map[x][y] = 178;
+			map[x-1][y]=' ';
 			printMap(map);
 		}
 		if(input == 75) {
 			y--;
-			map[x][y+1]=temp[x][y+1];
+			map[x][y] = 178;
+			map[x][y+1]=' ';
 			printMap(map);
 		}
 		if(input == 77) {
 			y++;
-			map[x][y-1]=temp[x][y-1];
+			map[x][y] = 178;
+			map[x][y-1]=' ';
 			printMap(map);
 		}
 		if(input == 13) {
