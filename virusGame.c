@@ -9,10 +9,10 @@
 
 int tick(char map[20][40], int day);
 void generateMap(char map[20][40]);
-void printMap(char map[20][40]);
+void printMap(char map[20][40], int x, int y);
 void gameOver(int finalDays);
-void selectMap(char map[20][40], char entity);
-
+int selectMap(char map[20][40], char entity);
+ 
 void main() {
     int i, j, x, y, input = 0, alive = 1, basePlaced = 0, action = 0, day = 0;
     char map[20][40], bomb = 'O', base = 'B', fighter = 'F';
@@ -25,33 +25,41 @@ void main() {
         if(basePlaced == 0){
             printf("Where are we situated on this 20x40 plane of existance?\n\n");
 			while(basePlaced == 0) {
-				selectMap(map, base);
-				basePlaced = 1;
+				printf("\ntest\n");
+				basePlaced = selectMap(map, base); 
+            	system("cls");
 			}
-            system("cls");
         }
-        printMap(map);
-        alive = tick(map, day);
-        printf("It's day %d, you got this.\n\nPlace Bomb >>> 1\nPlace Attacker >>> 2\n\n", day);
-		fflush(stdin);
-		input = getch();
-			if(input == 49) {
-				system("cls");
-        		printf("Now where goes bang?\n\n");
-           		selectMap(map, bomb);
-          		printf("\n\nKABOOOOM!");
-				printMap(map);
-           		Sleep(1000);
-			}
-       		else if(input == 50) {
-				system("cls");
-				printf("ATTACK!\n\n");
-				selectMap(map, fighter);
-				printMap(map);
-				Sleep(1000);
-			}
-		day++;
-        system("cls");
+        else{
+	        printMap(map, -1, -1);
+	        alive = tick(map, day);
+	        printf("It's day %d, you got this.\n\nPlace Bomb >>> 1\nPlace Attacker >>> 2\n\n", day);
+			fflush(stdin);
+			do
+			{
+				input = getch();
+				if(input == 49) {
+					system("cls");
+	        		printf("Now where goes bang?\n\n");
+	           		if(selectMap(map, bomb) == -1)
+	           		{
+	           			alive = 0;
+	           		}
+	          		printf("\n\nKABOOOOM!");
+					printMap(map,-1,-1);
+	           		Sleep(1000);
+				}
+	       		else if(input == 50) {
+					system("cls");
+					printf("ATTACK!\n\n");
+					selectMap(map, fighter);
+					printMap(map, -1, -1);
+					Sleep(1000);
+				}
+			}while(input != 49 && input != 50);
+			day++;
+	        system("cls");
+	    }
     }
 		system("cls");
 		printf("BLOODY HELL, this is bad!\n\nThis reality is DOOOOOOMED\n\n");
@@ -149,14 +157,22 @@ void generateMap(char map[20][40]) {
     map[rand() % 20][rand() % 40] = '*';
 }
 
-void printMap(char map[20][40]) {
+void printMap(char map[20][40], int x, int y) {
 	int i, j;
 	for(i = 0; i < 20; i ++) {
 		for(j = 0; j < 40; j ++) {
-			printf("%c", map[i][j]);
+			if(i==y && j==x)
+			{
+				printf("%c",178);
+			}
+			else
+			{
+				printf("%c", map[i][j]);
+			}
 		}
 		printf("\n");
 	}
+	printf("\n");
 }
 
 void gameOver(int finalDays) {
@@ -164,10 +180,10 @@ void gameOver(int finalDays) {
 
 }
 
-void selectMap(char map[20][40], char entity) {
+int selectMap(char map[20][40], char entity) {
 	int input, x = 0, y = 0, selected = 0;
 	char temp;
-	printMap(map);
+	printMap(map, x,y);
 	while(selected == 0) {
 		temp = map[x][y];
 		do
@@ -177,32 +193,60 @@ void selectMap(char map[20][40], char entity) {
 			system("cls");
 		}while(input == -32 || input == 0);
 		if(input == 72) {
-			x--;
-			map[x][y] = 178;
-			map[x+1][y]=' ';
-			printMap(map);
+			y--;
+			if(y < 0)
+			{
+				y = 19;
+			}
+			// map[x][y] = 178;
+			// map[x+1][y]=' ';
+			printMap(map,x,y);
 		}
 		if(input == 80) {
-			x++;
-			map[x][y] = 178;
-			map[x-1][y]=' ';
-			printMap(map);
+			y++;
+			if(y>=20)
+			{
+				y = 0;
+			}
+			// map[x][y] = 178;
+			// map[x-1][y]=' ';
+
+			printMap(map,x,y);
 		}
 		if(input == 75) {
-			y--;
-			map[x][y] = 178;
-			map[x][y+1]=' ';
-			printMap(map);
+			x--;
+			if(x<0)
+			{
+				x= 39;
+			}
+			// map[x][y] = 178;
+			// map[x][y+1]=' ';
+			printMap(map,x,y);
 		}
 		if(input == 77) {
-			y++;
-			map[x][y] = 178;
-			map[x][y-1]=' ';
-			printMap(map);
+			x++;
+			if(x>=40)
+			{
+				x= 0;
+			}
+			// map[x][y] = 178;
+			// map[x][y-1]=' ';
+			printMap(map,x,y);
 		}
 		if(input == 13) {
+
 			selected = 1;
-			map[x][y] = entity;
+			if(map[y][x] == 'B' && entity == 'O')
+			{
+				return -1;
+			}
+
+			if(map[y][x] == '*' && entity == 'B')
+			{
+				selected = 0;
+			}
 		}
 	}
+	map[y][x] = entity;
+	return 1;
 }
