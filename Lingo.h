@@ -311,7 +311,7 @@ void writeAcount(struct player *currentAccount)
 {
 	FILE *fp;
 	fp = fopen("accountInfo.bin", "rb+");
-	fseek(fp, currentAccount->location, SEEK_SET);
+	fseek(fp, currentAccount->location * sizeof(struct player), SEEK_SET);
 	fwrite(currentAccount, sizeof(struct player), 1, fp);
 }
 
