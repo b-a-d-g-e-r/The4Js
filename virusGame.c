@@ -25,7 +25,6 @@ void main() {
         if(basePlaced == 0){
             printf("Where are we situated on this 20x40 plane of existance?\n\n");
 			while(basePlaced == 0) {
-				printf("\ntest\n");
 				basePlaced = selectMap(map, base); 
             	system("cls");
 			}
